@@ -54,6 +54,19 @@ class ParserTest extends TestCase
         }
     }
 
+    public function testTranslatedParse()
+    {
+        $testData = $this->captionData();
+        $parser = new Parser();
+        $parser->loadFile(__DIR__ . '/files/SampleCaptions.srt');
+        $captions = $parser->parse('en','fr');
+        foreach ($captions as $key => $caption) {
+            $this->assertEquals($testData[$key]['startTime'], $caption->startTime);
+            $this->assertEquals($testData[$key]['endTime'], $caption->endTime);
+            $this->assertNotEquals($testData[$key]['text'], $caption->text);
+        }
+    }
+
     public function captionData()
     {
         return [
